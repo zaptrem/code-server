@@ -6,41 +6,43 @@ usage() {
   if [ "$0" = sh ]; then
     cli="curl -fsSL https://code-server.dev/install.sh | sh -s --"
   else
-    curl_usage="The latest script is available at https://code-server.dev/install.sh"
+    curl_usage="The latest script is available at https://code-server.dev/install.sh
+"
   fi
   cat << EOF
-Installs code-server for Linux or macOS.
+Installs code-server for Linux and macOS.
 It tries to use the system package manager if possible.
 After successful installation it explains how to start using code-server.
 ${curl_usage-}
-
 Usage:
 
-  $cli [--dry-run] [--version X.X.X] [--static <install-prefix>=~/.local]
+  $cli [--dry-run] [--version X.X.X] [--method default] [--prefix ~/.local]
 
-    --dry-run Echo the commands for the install process without running them.
-
-    --version Install a specific version instead of the latest release.
-
-    --static  Install a static release into ~/.local
-
-              The release will be unarchived into ~/.local/lib/code-server.X.X.X
-              and the binary symlinked into ~/.local/bin/code-server.
-              Add ~/.local/bin to your \$PATH to use it.
-
-              To install system wide pass ---static=/usr/local
+  --dry-run
+      Echo the commands for the install process without running them.
+  --version
+      Install a specific version instead of the latest release.
+  --method [detect | archive]
+      Choose the installation method. Defaults to detect.
+      - detect detects the system package manager and tries to use it.
+        Full reference on the process is further below.
+      - archive installs a static release archive into ~/.local
+        Add ~/.local/bin to your \$PATH to use it.
+  --prefix <dir>
+      Sets the prefix used by static release archives. Defaults to ~/.local
+      The release is unarchived into ~/.local/lib/code-server.X.X.X
+      and the binary symlinked into ~/.local/bin/code-server.
+      To install system wide pass ---prefix=/usr/local
 
 - For Debian, Ubuntu and Raspbian it will install the latest deb package.
 - For Fedora, CentOS, RHEL and openSUSE it will install the latest rpm package.
 - For Arch Linux it will install the AUR package.
 - For any unrecognized Linux operating system it will install the latest static
   release into ~/.local
-  - Add ~/.local/bin to your \$PATH to run code-server.
 
 - For macOS it will install the Homebrew package.
   - If Homebrew is not installed it will install the latest static release
     into ~/.local
-  - Add ~/.local/bin to your \$PATH to run code-server.
 
 - If ran on an architecture with no binary releases, it will install the
   npm package with yarn or npm.
@@ -261,7 +263,8 @@ install_rpm() {
 install_aur() {
   echo "Installing from the AUR."
 
-  fetch "https://aur.archlinux.org/cgit/aur.git/snapshot/code-server.tar.gz" "$CACHE_DIR/code-server-aur.tar.gz"
+# TODO NO_CACHE
+#  fetch "https://aur.archlinux.org/cgit/aur.git/snapshot/code-server.tar.gz" "$CACHE_DIR/code-server-aur.tar.gz"
 
   tmp_dir="$(mktemp -d)"
   (

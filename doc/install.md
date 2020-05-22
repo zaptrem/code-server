@@ -4,7 +4,7 @@
 
 - [install.sh](#installsh)
   - [Flags](#flags)
-  - [Installation reference](#installation-reference)
+  - [Reference](#reference)
 - [Debian, Ubuntu](#debian-ubuntu)
 - [Fedora, CentOS, RHEL, SUSE](#fedora-centos-rhel-suse)
 - [Arch Linux](#arch-linux)
