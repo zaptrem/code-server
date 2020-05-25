@@ -33,9 +33,9 @@ main() {
 
 vscode_yarn() {
   cd lib/vscode
-  yarn --production --frozen-lockfile
+  npm --production --frozen-lockfile
   cd extensions
-  yarn --production --frozen-lockfile
+  npm --production --frozen-lockfile
 }
 
 main "$@"
